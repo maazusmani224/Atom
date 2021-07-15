@@ -1,0 +1,15 @@
+.studentclass__classes .ui.cards{
+    justify-content: center;
+}
+
+.ui.card.pulse.classes__card{
+    margin: 10px;
+}
+
+.studentclass__heading{
+    padding:5px;
+}
+
+.studentclass__heading .ui.section.divider{
+    margin-top: 5px;
+}

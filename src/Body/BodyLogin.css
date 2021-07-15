@@ -1,0 +1,31 @@
+
+.login__button{
+    margin : 10px;
+}
+
+.gettingstarted{
+    background-image: url("https://i.ibb.co/q9gmYG0/joanna-kosinska-7-ACu-Hoez-UYk-unsplash.jpg");
+    background-size: cover;
+    height: 100vh;
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-attachment: fixed;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.introduction{
+    margin-left: 20%;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-weight:500;
+    font-size: xx-large;
+}
+
+.features{
+    height: 100vh;
+    min-height: 100%;
+}

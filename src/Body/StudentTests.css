@@ -1,0 +1,12 @@
+.tab__panel{
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.ui.cards.centered.cardsgroup{
+    margin : 0px;
+}

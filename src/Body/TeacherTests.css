@@ -1,0 +1,32 @@
+.tab__panel{
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.ui.cards.centered.cardsgroup{
+    margin : 0px;
+}
+
+.create__test__form__data{
+    max-height: 78vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.add__newques .add__newques__elem{
+    margin:3px;
+}
+
+.addtest__button:hover{
+    cursor: pointer;
+}
+
+.display__test{
+    max-height: 78vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

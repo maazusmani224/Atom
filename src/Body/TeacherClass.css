@@ -1,0 +1,37 @@
+.teacherclass__heading{
+    margin: 10px;
+    padding:1px;
+}
+
+.teacherclass__classes{
+    margin: 10px;
+}
+
+.classes__card{
+    margin:10px;
+}
+
+.addclass__button{
+    cursor: pointer;
+}
+
+.addclass__title{
+    margin: 10px;
+}
+
+.addclass__description{
+    margin: 10px;
+}
+
+.addclass__button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.teacherclass__classes .ui.cards{
+    justify-content: center;
+}
+
+.teacherclass__heading .ui.section.divider{
+    margin-top:5px;
+}

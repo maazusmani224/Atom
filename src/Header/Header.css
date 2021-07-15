@@ -1,0 +1,112 @@
+
+.header__main{
+    display : flex;
+    position: sticky;
+    padding: 0px 5px;
+    box-shadow: 0px 1px lightgray;
+    justify-content: space-between;
+    align-content: space-between;
+    background-color: #000000;
+    background-image: linear-gradient(147deg, #000000 0%, #434343 74%);
+}
+
+.header__left
+{
+    margin: 10px;
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+    font-size: medium;
+}
+
+.header__left p{
+    color: white;
+    font-size: 200%;
+}
+
+.logo{
+    width:50px;
+    height:50px;
+}
+
+.header__right
+{
+    display: flex;
+    margin: 10px;
+}
+
+.header__avatar{
+    cursor: pointer;
+}
+
+.header__username{
+    color: white;
+    margin: 10px;
+}
+
+.menu__icons{
+    margin: 10px;
+    padding: 10px;
+    cursor: pointer;
+    border:1px;
+    border-radius: 30px;
+}
+.menu__icons:hover{
+    background-color: lightgray;
+}
+
+.avatar__large.MuiAvatar-root{
+    cursor:pointer;
+    width: 150px;
+    height: 150px;
+}
+
+.editprofile__avatar{
+    display: flex;
+    flex-direction: column;
+    margin:10px;
+    padding-left: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.editprofile__name{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cancelbutton{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ui.green.basic.button.selectimagebuuton{
+    margin:10px;
+}
+
+.ui.green.button.saveusernamebutton{
+    margin: 10px;
+}
+
+.avatarsgrid{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    max-width: 75vh;
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+.avatarsgriditems{
+    margin: 10px;
+    cursor: pointer;
+}
+
+.ui.page.modals.dimmer.transition.visible.active.avatarselectmodal{
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}

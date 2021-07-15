@@ -1,0 +1,96 @@
+.tab__container{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.tab__container .tabs{
+    border-right: 1px solid lightgrey;
+}
+
+.addpostbutton{
+    cursor: pointer;
+}
+
+.tab__panel{
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.MuiTabs-root.tabs.MuiTabs-vertical{
+    position: sticky;
+}
+
+.addpost__title{
+    margin: 20px;
+}
+
+.addpost__file{
+    margin: 20px;
+}
+
+.addpost__description{
+    margin:20px;
+}
+
+.addpost__button{
+    margin: 20px;
+}
+
+.removepostbutton{
+    cursor: pointer;
+}
+
+.ui.cards.centered.cardsgroup{
+    margin : 0px;
+}
+
+.backbutton__container{
+    display: flex;
+    justify-content: space-between;
+    padding: 3px;
+}
+
+.backbutton{
+    cursor: pointer;
+}
+
+.removeclassbutton{
+    cursor: pointer;
+}
+
+.tab__main{
+    display: flex;
+    height: 75vh;
+}
+
+.modal .content p{
+    text-align: center;
+}
+
+.section__divider.ui.section.divider{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.postfile__download{
+    margin:10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .tab__container .tabs{
+        border-bottom: 1px solid lightgrey;
+        border-right: 0;
+    }
+    .tab__main{
+        flex-direction: column;
+    }
+
+    .MuiTabs-flexContainerVertical.MuiTabs-flexContainer{
+        flex-direction: row;
+    }
+  }

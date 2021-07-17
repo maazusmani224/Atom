@@ -156,6 +156,20 @@ function TeacherClassFeeds(props)
 
       setDeleteClassOpen(false);
 
+      db.collection('tests').where('class','==',props.classid).get()
+      .then((snapshot)=>{
+        snapshot.docs.forEach(doc=>{
+          db.collection('questions').doc(doc.data().questions).delete();
+          db.collection('correctans').where('test','==',doc.id).get()
+          .then(snaps=>{
+            snaps.docs.forEach(snap=>{
+              snap.ref.delete();
+            })
+          })
+          doc.ref.delete();
+        })
+      })
+
       db.collection('classes').doc(props.classid).delete();
       db.collection('partof').where('class','==',props.classid).get().then(docs=>{
         docs.forEach(doc=>{

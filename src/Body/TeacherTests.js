@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from "react";
 import {db,auth} from '../firebase';
 import * as firebase from 'firebase';
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert';
 import { Transition, Card, Placeholder, Icon, Label,Button,Segment,Input,Radio,TextArea, Modal,Divider,Message } from "semantic-ui-react";
 import './TeacherTests.css';
 
@@ -39,6 +41,9 @@ function Question(props){
 
 export default function TeacherTests(props) {
 
+  const [errmessage,setErrMessage]  = useState('');
+    const [snackbaropen, setSnackBarOpen] = useState(false);
+
   const [createtestformopen,setCreateTestFormOpen]=  useState(false);
   const [openedtestquestions,setOpenedTestQuestions] = useState([]);
   const [openedtestans,setOpenedTestAns] = useState([]);
@@ -68,7 +73,8 @@ export default function TeacherTests(props) {
       setAddQues(false)
       }
       else{
-        alert('Choose a correct answer for this question')
+        setErrMessage("Choose a correct answer for this question");
+        setSnackBarOpen(true);
       }
     }
 
@@ -76,8 +82,18 @@ export default function TeacherTests(props) {
       setCreateTestFormOpen(false);
     }
 
+    function resetTest(){
+      setCurrentQues({points:5})
+      setCurrentCorrectAns(-1)
+      setAddQues(false)
+      setQuestions([])
+      setCorrectAns([])
+      setTitle('')
+    }
+
     function saveTest(){
-      var total =0;
+      if(!addques){
+        var total =0;
       questions.forEach(ques=>{
         total=total+Number(ques.points);
       });
@@ -104,6 +120,11 @@ export default function TeacherTests(props) {
       setQuestions([])
       setCorrectAns([])
       setTitle('')
+      }
+      else{
+        setErrMessage("There are unsaved questions");
+        setSnackBarOpen(true);
+      }
     }
 
     function changeTestStatus(id,active){
@@ -128,8 +149,36 @@ export default function TeacherTests(props) {
       }).catch(err=>console.log(err.message));
     }
 
+    function deleteTest(event){
+      const index = event.target.attributes.getNamedItem("index").value;
+      console.log(index);
+
+      db.collection('correctans').where('test','==',props.tests[index].id).get()
+      .then(snapshot=>{
+        snapshot.docs[0].ref.delete();
+      })
+      .catch(err=>console.log(err));
+
+      db.collection('questions').doc(props.tests[index].data.questions).delete();
+
+      db.collection('tests').doc(props.tests[index].id).delete();
+    }
+
+    const handleSnackBarClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setSnackBarOpen(false);
+    };
+
   return (
     <div className="tests__tab">
+      <Snackbar anchorOrigin={{vertical:'top',horizontal:'center'}} open={snackbaropen} autoHideDuration={2000} onClose={handleSnackBarClose}>
+              <MuiAlert elevation={5} variant='filled' onClose={handleSnackBarClose} severity="warning">
+               {errmessage}
+               </MuiAlert>
+            </Snackbar>
       {props.loading ? (
         [1, 1, 1].map((elem) => (
           <Card>
@@ -197,7 +246,10 @@ export default function TeacherTests(props) {
                 </Card.Header>
               </Card.Content>
               <Card.Content meta={doc.data.created} />
-              <Card.Content><Card.Description>Max Marks:{doc.data.marks} <Radio style={{margin:'15px'}} checked={doc.data.active} slider label="Enabled" onChange={()=>changeTestStatus(doc.id,doc.active)}/></Card.Description></Card.Content>
+              <Card.Content><Card.Description><div style={{display:"flex",justifyContent:"space-between"}}><div>Max Marks:{doc.data.marks}</div> <Radio checked={doc.data.active} slider label="Enabled" onChange={()=>changeTestStatus(doc.id,doc.active)}/>
+              <div style={{cursor:"pointer"}} index={index} onClick={deleteTest}><Icon index={index} name="cancel" color="red"/></div></div>
+              </Card.Description>
+              </Card.Content>
             </Card>
           ))}
         </Transition.Group>
@@ -220,13 +272,14 @@ export default function TeacherTests(props) {
             <div className="add__newques__elem"><Radio value={2} onChange={()=>{setCurrentCorrectAns(2)}} checked={currentcorrectans===2}/><Input type="text" placeholder="Option 3" value={currentques.optionc} onChange={(e,{value})=>setCurrentQues(prev=>{return {...prev,optionc:value}})}/></div>
             <div className="add__newques__elem"><Radio value={3} onChange={()=>{setCurrentCorrectAns(3)}} checked={currentcorrectans===3}/><Input type='text' placeholder="Option 4" value={currentques.optiond} onChange={(e,{value})=>setCurrentQues(prev=>{return {...prev,optiond:value}})}/></div>
             <div className="add__newques__elem" ><Input type="text" label="Points" defaultValue={5} value={currentques.points} onChange={(e,{value})=>setCurrentQues(prev=>{return {...prev,points:value}})}/></div>
-            <div className="add__newques__elem"><Button onClick={saveCurrentQues}>Save</Button></div>
+            <div className="add__newques__elem"><Button color="green" onClick={saveCurrentQues}>Save Question</Button></div>
             </div>}
             </div>
             <Divider/>
-        <Button basic color='grey' onClick={addquestion}><Icon name="add"/>Add</Button>
-        <Button basic color='green' onClick={saveTest}><Icon name="save"/>Create</Button>
-        <Button basic color="red" onClick={closeCreateTestForm}>Close</Button>
+        <Button basic color='teal' onClick={addquestion}><Icon name="add"/>Add New Question</Button>
+        <Button basic color='green' onClick={saveTest}><Icon name="save"/>Create Test</Button>
+        <Button basic color="orange" onClick={resetTest}><Icon name="recycle"/>Reset</Button>
+        <Button basic color="red" onClick={closeCreateTestForm}><Icon name="cancel"/>Close</Button>
         </Segment>
       </Modal>
 

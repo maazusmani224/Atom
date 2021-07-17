@@ -40,6 +40,8 @@ function Question(props){
 export default function TeacherTests(props) {
 
   const [createtestformopen,setCreateTestFormOpen]=  useState(false);
+  const [openedtestquestions,setOpenedTestQuestions] = useState([]);
+  const [openedtestans,setOpenedTestAns] = useState([]);
   const [title,setTitle]= useState('')
   const [currentques,setCurrentQues] = useState({points:5});
   const [questions,setQuestions] = useState([]);
@@ -47,7 +49,7 @@ export default function TeacherTests(props) {
   const [currentcorrectans,setCurrentCorrectAns] = useState(-1)
   const [addques,setAddQues] = useState(false)
   const [testopen,setTestOpen] = useState(false)
-  const [openedtestindex,setOpenedTestIndex] = useState(0)
+  const [openedtestindex,setOpenedTestIndex] = useState('');
     function openCreateTestForm(){
       setCreateTestFormOpen(true)
     }
@@ -78,7 +80,7 @@ export default function TeacherTests(props) {
     function saveTest(){
       var total =0;
       questions.forEach(ques=>{
-        total=total+ques.points;
+        total=total+Number(ques.points);
       });
       db.collection('questions').add({
         questions:questions
@@ -113,8 +115,19 @@ export default function TeacherTests(props) {
     }
 
     function openTest(event,{index}){
-      setOpenedTestIndex(index)
-      setTestOpen(true)
+      setOpenedTestIndex(index);
+      db.collection('questions').doc(props.tests[index].data.questions).get()
+      .then(quessnapshot=>{
+        setOpenedTestQuestions(quessnapshot.data().questions);
+
+        db.collection('correctans').where('test','==',props.tests[index].id).get()
+      .then(anssnapshot=>{
+        setOpenedTestAns(anssnapshot.docs[0].data().ans);
+        setTestOpen(true);
+      })
+      .catch(error=>console.log(error));
+
+      }).catch(err=>console.log(err.message));
     }
 
   return (
@@ -221,18 +234,18 @@ export default function TeacherTests(props) {
 
       <Modal
       basic
-      onClose={()=>setTestOpen(false)}
+      onClose={()=>{setTestOpen(false);setOpenedTestQuestions([]);}}
       open={testopen}
       >
         <div className='display__test'>
-        {testopen&&props.tests[openedtestindex].data.questions.map((ques,index)=>(
-          <Message>
+        {testopen&&openedtestquestions.map((ques,index)=>(
+          <Message key={index}>
             <Message.Content><div>
               <Message.Header>{index+1+"  "}{ques.ques}</Message.Header>
-              {ques.optiona&&<Message.Item>{ques.optiona}</Message.Item>}
-              {ques.optionb&&<Message.Item>{ques.optionb}</Message.Item>}
-              {ques.optionc&&<Message.Item>{ques.optionc}</Message.Item>}
-              {ques.optiond&&<Message.Item>{ques.optiond}</Message.Item>}
+              {ques.optiona&&<div><p style={{color:openedtestans[index]===0&&'green'}}>{ques.optiona}</p></div>}
+              {ques.optionb&&<div><p style={{color:openedtestans[index]===1&&'green'}}>{ques.optionb}</p></div>}
+              {ques.optionc&&<div><p style={{color:openedtestans[index]===2&&'green'}}>{ques.optionc}</p></div>}
+              {ques.optiond&&<div><p style={{color:openedtestans[index]===3&&'green'}}>{ques.optiond}</p></div>}
               </div></Message.Content>
               <Divider />
             </Message>

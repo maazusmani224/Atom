@@ -49,7 +49,6 @@ export default function TeacherTests(props) {
   const [currentcorrectans,setCurrentCorrectAns] = useState(-1)
   const [addques,setAddQues] = useState(false)
   const [testopen,setTestOpen] = useState(false)
-  const [openedtestindex,setOpenedTestIndex] = useState('');
     function openCreateTestForm(){
       setCreateTestFormOpen(true)
     }
@@ -115,7 +114,6 @@ export default function TeacherTests(props) {
     }
 
     function openTest(event,{index}){
-      setOpenedTestIndex(index);
       db.collection('questions').doc(props.tests[index].data.questions).get()
       .then(quessnapshot=>{
         setOpenedTestQuestions(quessnapshot.data().questions);

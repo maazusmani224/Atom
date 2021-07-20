@@ -14,6 +14,7 @@ import MuiButton from '@material-ui/core/Button'
 import {Card,Icon,Button,Header,Modal,Divider,Transition,Label,Placeholder} from 'semantic-ui-react/'
 import 'semantic-ui-css/semantic.min.css'
 import './TeacherClassFeeds.css'
+import ClassMates from './ClassMates';
 
 
 function TabPanel(props) {
@@ -240,7 +241,7 @@ function TeacherClassFeeds(props)
             <Tab label="Students" id="tab_students"/>
         </Tabs>
         <TabPanel value={openedtab} index ={0}>
-        {props.loading?<Card.Group centered>{[1,1,1].map(elem=>(<Card>
+        {props.loading?<Card.Group centered>{[1,1,1].map((elem,index)=>(<Card key={index}>
                 <Card.Content style={{background:'linear-gradient(to right, #232526, #414345)'}}><Card.Header><Label as='a' color={getRandomColorForLabel()} size='large'><Placeholder><Placeholder.Line/></Placeholder></Label></Card.Header></Card.Content>
                 <Card.Content><Card.Meta></Card.Meta></Card.Content>
                 <Card.Content><Card.Description><Placeholder><Placeholder.Line/></Placeholder></Card.Description></Card.Content>
@@ -278,7 +279,7 @@ function TeacherClassFeeds(props)
         <TabPanel value={openedtab} index ={1}><TeacherTests classid={props.classid} tests={tests} loading={loading}/></TabPanel>
 
 
-        <TabPanel value={openedtab} index ={2}>Students</TabPanel>
+        <TabPanel value={openedtab} index ={2}><ClassMates classid={props.classid}/></TabPanel>
 
 
         <div className='addpost__form'>

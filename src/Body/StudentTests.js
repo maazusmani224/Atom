@@ -3,6 +3,10 @@ import React from "react";
 import {Card,Label,Transition,Placeholder,Icon,Button} from 'semantic-ui-react'
 
 export default function StudentTests(props){
+  function startTest(event,{testid}){
+    props.setTestId(testid);
+    props.setTestStarted(true);
+  }
     return(
         <div className="tests__tab">
       {props.loading ? (
@@ -64,7 +68,18 @@ export default function StudentTests(props){
                 </Card.Header>
               </Card.Content>
               <Card.Content meta={doc.data.created} />
-              <Card.Content><Card.Description>Max Marks:{doc.data.marks}{doc.data.active&&<Button basic color='green' style={{margin:'15px'}}>Take Test</Button>}</Card.Description></Card.Content>
+              <Card.Content>
+                <Card.Description>
+                  Max Marks:{doc.data.marks}
+                  {(doc.data.active&&!doc.taken)&&<Button testid={doc.id} basic color='green' style={{margin:'15px'}} onClick={startTest}>
+                    Take Test</Button>}
+                    {doc.taken&&<div style={{display:"flex"}}>
+                      Score: <div style={{marginLeft:"10px"}}>
+                        {(Number(doc.score)!==-1)&&doc.score}
+                        </div>
+                        </div>}
+                        </Card.Description>
+                        </Card.Content>
             </Card>
           ))}
         </Transition.Group>

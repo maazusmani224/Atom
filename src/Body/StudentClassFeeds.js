@@ -5,12 +5,13 @@ import Tabs from '@material-ui/core/Tabs'
 import {db,auth,store} from '../firebase'
 import PropTypes from 'prop-types'
 import StudentTests from './StudentTests'
+import ClassMates from './ClassMates'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
     return (
       <div
-        className="post__card"
+        className="tab__panel"
         role="tabpanel"
         hidden={value !== index}
         id={`vertical-tabpanel-${index}`}
@@ -49,8 +50,24 @@ export default function StudentClassFeeds(props){
             props.setLoading(false)
         })
 
+        // const unsubs_test = db.collection('tests').where('class','==',props.classid).onSnapshot(snapshot=>{
+        //   setTests(snapshot.docs.map(doc=>({id:doc.id,data:setDate(doc.data())})));
+        // })
+
         const unsubs_test = db.collection('tests').where('class','==',props.classid).onSnapshot(snapshot=>{
-          setTests(snapshot.docs.map(doc=>({id:doc.id,data:setDate(doc.data())})));
+          snapshot.docs.forEach(doc=>{
+            db.collection('taken').where('student','==',auth.currentUser.email).where('test','==',doc.id).get()
+            .then(queryss=>{
+              setTests(prev=>{
+                return [...prev,{
+                  id:doc.id,
+                  data: setDate(doc.data()),
+                  taken: queryss.size===0?false:true,
+                  score: queryss.size===0?-1:queryss.docs[0].data().score
+                }]
+              })
+            })
+          })
         })
 
         return ()=>{
@@ -139,7 +156,7 @@ export default function StudentClassFeeds(props){
             <Tab label="Classmates" id="tab_students"/>
         </Tabs>
         <TabPanel value={openedtab} index ={0}>
-          {props.loading?<Card.Group centered>{[1,1].map(elem=>(<Card>
+          {props.loading?<Card.Group centered>{[1,1].map((elem,index)=>(<Card key={index}>
                   <Card.Content style={{background:'linear-gradient(to right, #232526, #414345)'}}><Card.Header><Label as='a' color={getRandomColorForLabel()} size='large'><Placeholder><Placeholder.Line/></Placeholder></Label></Card.Header></Card.Content>
                   <Card.Content><Card.Meta></Card.Meta></Card.Content>
                   <Card.Content><Card.Description><Placeholder><Placeholder.Line/></Placeholder></Card.Description></Card.Content>
@@ -163,8 +180,8 @@ export default function StudentClassFeeds(props){
               ))
               }</Transition.Group>}
         </TabPanel>
-        <TabPanel value={openedtab} index={1}><StudentTests tests={tests} /></TabPanel>
-        <TabPanel value={openedtab} index={2}>Classmates</TabPanel>
+        <TabPanel value={openedtab} index={1}><StudentTests setTestId={props.setTestId} setTestStarted={props.setTestStarted} tests={tests} /></TabPanel>
+        <TabPanel value={openedtab} index={2}><ClassMates/></TabPanel>
       </div>
       </div>
     );

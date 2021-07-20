@@ -1,0 +1,46 @@
+.question{
+    margin-bottom: 1%;
+}
+
+.testmain{
+    height: 85vh;
+    overflow-y: scroll;
+}
+
+.radio{
+    margin-right: 1%;
+}
+
+.indices{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.25rem;
+    width: 2.25rem;
+    cursor: pointer;
+    border: 1.5px solid;
+    border-radius: 100%;
+    background-color: white;
+    color: black;
+}
+.indices.answered{
+    background-color: #21ba45;
+    color:white;
+}
+
+.indices.active{
+    background-color: black;
+    color: white;
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.indices:hover{
+    background-color: grey;
+}
+
+.display__test{
+    max-height: 78vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

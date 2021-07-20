@@ -12,30 +12,29 @@ export default function StudentClass(props){
     const [severity,setSeverity] = useState('success')
     const [classes,setClasses] = useState([]);
     const [inputclasscode,setInputClassCode] = useState('')
-    const [loading,setLoading] = useState(true)
     const user = auth.currentUser;
     const colors=['black','teal','blue','red','olive','green','violet']
     const gradients=['linear-gradient(to right, #232526, #414345)','linear-gradient(to right, #1f1c2c, #928dab)','linear-gradient(to right, #1e130c, #9a8478)','linear-gradient(to right, #8e0e00, #1f1c18)','background: linear-gradient(to right, #000000, #434343);',
 'linear-gradient(to right, #141e30, #243b55)','linear-gradient(to right, #200122, #6f0000)','linear-gradient(to right, #536976, #292e49)','linear-gradient(to right, #bdc3c7, #2c3e50)',]
 
     useEffect(()=>{
-       const unsubscribe = db.collection('partof').where('student','==',user.email).orderBy('joined','desc').onSnapshot(queryss=>{
+        const unsubscribe = db.collection('partof').where('student','==',user.email).orderBy('joined','desc').onSnapshot(snap=>{
+            getClasses();
+        })
+        setSnackBarOpen(false);
+        return()=>{
+            unsubscribe()
+            props.setLoading(true)
+        }
+    },[])
+
+    function getClasses(){
+        db.collection('partof').where('student','==',user.email).orderBy('joined','desc').get().then(queryss=>{
             queryss.docChanges().forEach(querydoc=>{
                 if(querydoc.doc.exists){
                     db.collection('classes').doc(querydoc.doc.data().class).get().then(classdoc=>{
                         if(classdoc.exists){
                             db.collection('users').doc(classdoc.data().by).get().then(teacherdoc=>{
-                                if(classes.length===0){
-                                    setClasses(prev=>{
-                                        return [...prev,{
-                                            id:classdoc.id,
-                                            data: setDate(classdoc.data()),
-                                            creator: teacherdoc.data()
-                                        }]
-                                    })
-                                }
-                                else{
-                                    if(querydoc.type==='added')
                                     setClasses(prev=>{
                                         return [{
                                             id:classdoc.id,
@@ -43,7 +42,6 @@ export default function StudentClass(props){
                                             creator: teacherdoc.data()
                                         },...prev]
                                     })
-                                }
                             }).catch(err=>console.log(err))
                         }
                     }).catch(err=>console.log(err))
@@ -53,13 +51,7 @@ export default function StudentClass(props){
             props.setLoading(false)
         }
         )
-        setLoading(false)
-        setSnackBarOpen(false);
-        return()=>{
-            unsubscribe()
-            props.setLoading(true)
-        }
-    },[loading])
+    }
 
     function setDate(data){
         return {

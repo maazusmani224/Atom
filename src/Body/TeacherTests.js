@@ -3,7 +3,7 @@ import {db,auth} from '../firebase';
 import * as firebase from 'firebase';
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert';
-import { Transition, Card, Placeholder, Icon, Label,Button,Segment,Input,Radio,TextArea, Modal,Divider,Message } from "semantic-ui-react";
+import { Transition, Card, Placeholder, Icon, Label,Button,Segment,Input,Radio,TextArea, Modal,Divider,Message,Image,List } from "semantic-ui-react";
 import './TeacherTests.css';
 
 function Question(props){
@@ -15,6 +15,12 @@ function Question(props){
       })
     })
     props.setCorrectAns(prev=>{
+      return prev.filter((ans,index)=>{
+        return index!==props.index
+      })
+    })
+
+    props.setPoints(prev=>{
       return prev.filter((ans,index)=>{
         return index!==props.index
       })
@@ -40,10 +46,10 @@ function Question(props){
 }
 
 export default function TeacherTests(props) {
-
   const [errmessage,setErrMessage]  = useState('');
-    const [snackbaropen, setSnackBarOpen] = useState(false);
-
+  const [students,setStudents] = useState([]);
+  const [listopen,setListOpen] = useState(false);
+  const [snackbaropen, setSnackBarOpen] = useState(false);
   const [createtestformopen,setCreateTestFormOpen]=  useState(false);
   const [openedtestquestions,setOpenedTestQuestions] = useState([]);
   const [openedtestans,setOpenedTestAns] = useState([]);
@@ -51,9 +57,11 @@ export default function TeacherTests(props) {
   const [currentques,setCurrentQues] = useState({points:5});
   const [questions,setQuestions] = useState([]);
   const [correctans,setCorrectAns] = useState([])
+  const [points,setPoints] = useState([]);
   const [currentcorrectans,setCurrentCorrectAns] = useState(-1)
   const [addques,setAddQues] = useState(false)
   const [testopen,setTestOpen] = useState(false)
+
     function openCreateTestForm(){
       setCreateTestFormOpen(true)
     }
@@ -68,6 +76,7 @@ export default function TeacherTests(props) {
       if(currentcorrectans!==-1){
       setQuestions(prev=>{return [...prev,currentques]})
       setCorrectAns(prev=>{return [...prev,currentcorrectans]})
+      setPoints(prev=>{return [...prev,Number(currentques.points)]})
       setCurrentCorrectAns(-1)
       setCurrentQues({points:5})
       setAddQues(false)
@@ -110,7 +119,8 @@ export default function TeacherTests(props) {
       }).then(snapshot=>{
         db.collection('correctans').add({
           test:snapshot.id,
-          ans:correctans
+          ans:correctans,
+          points: points
         })
       })}).catch(err=>{console.log(err)})
       setCreateTestFormOpen(false)
@@ -162,6 +172,13 @@ export default function TeacherTests(props) {
       db.collection('questions').doc(props.tests[index].data.questions).delete();
 
       db.collection('tests').doc(props.tests[index].id).delete();
+
+      db.collection('taken').where('test','==',props.tests[index].id).get()
+      .then(snapshot=>{
+        snapshot.docs.forEach(doc=>{
+          doc.ref.delete();
+        })
+      })
     }
 
     const handleSnackBarClose = (event, reason) => {
@@ -171,6 +188,31 @@ export default function TeacherTests(props) {
   
       setSnackBarOpen(false);
     };
+
+   function toggleStudentList(e,data){
+    if(!listopen){
+       var unsubs = db.collection('taken').where('test','==',data.tid).get()
+       .then(snapss=>{
+        snapss.docs.forEach(doc=>{
+          if(doc.exists){
+            db.collection('users').doc(doc.data().student).get()
+            .then(student=>{
+              setStudents(prev=>{
+                return [{
+                  username : student.data().username,
+                  score : doc.data().score,
+                  photoUrl: student.data().photoUrl,
+                  email: student.id
+                },...prev]
+              })
+            })
+          }
+        })
+      })
+      setListOpen(true);
+      }
+    }
+
 
   return (
     <div className="tests__tab">
@@ -243,6 +285,7 @@ export default function TeacherTests(props) {
                   <Label as="a" index={index} onClick={openTest} color="blue" size="large">
                     {doc.data.title}
                   </Label>
+                  <Label as="a" tid={doc.id} onClick={toggleStudentList} color="green" size="large"><Icon fitted name="user circle"/></Label>
                 </Card.Header>
               </Card.Content>
               <Card.Content meta={doc.data.created} />
@@ -263,7 +306,7 @@ export default function TeacherTests(props) {
           <div className="create__test__form__data">
           <Input type="text" placeholder="Title" value={title} onChange={(e,{value})=>setTitle(value)}/>
           {questions.map((ques,index)=>(
-            <Question key={index} question={ques} correctans={correctans[index]} index={index} setQuestions={setQuestions} setCorrectAns={setCorrectAns}/>
+            <Question key={index} question={ques} correctans={correctans[index]} index={index} setQuestions={setQuestions} setCorrectAns={setCorrectAns} setPoints={setPoints}/>
           ))}
           {addques&&<div className="add__newques" style={{display:'flex',flexDirection:'column'}}>
             <TextArea className="add__newques__elem" placeholder="Question" rows={2} value={currentques.ques} onChange={(e,{value})=>{setCurrentQues(prev=>{return {...prev,ques:value}})}}></TextArea>
@@ -302,6 +345,38 @@ export default function TeacherTests(props) {
             </Message>
         ))}
         </div>
+      </Modal>
+
+      <Modal
+      basic
+      onClose={()=>{setListOpen(false);setStudents([])}}
+      open={listopen}
+      >
+        <div className='display__test'>
+          <Message>
+            <Message.Content><div>
+              <Message.Header>{}</Message.Header>
+              <List divided verticalAlign='middle'>
+                <List.Item>
+                  <List.Content>
+                    <List.Header as="div">Total Students: {students.length}</List.Header>
+                  </List.Content>
+                </List.Item>
+              {students.map(student=>(
+                 <List.Item key={student.email}>
+                 <Image avatar src={student.photoUrl} />
+                 <List.Content>
+                   <List.Header as='a'>{student.username}</List.Header>
+                   <List.Description>Score: {student.score} </List.Description>
+                   </List.Content>
+                   </List.Item>
+              ))}
+              </List>
+              </div>
+              </Message.Content>
+            </Message>
+        </div>
+
       </Modal>
 
 

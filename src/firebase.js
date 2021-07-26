@@ -1,11 +1,12 @@
 import firebase from 'firebase';
 var firebaseConfig = {
-    apiKey: "AIzaSyBoCOVs0xweW3UIyXRppGFzMOFErAJRmkU",
-    authDomain: "virtual-classroom-65503.firebaseapp.com",
-    projectId: "virtual-classroom-65503",
-    storageBucket: "virtual-classroom-65503.appspot.com",
-    messagingSenderId: "874824854095",
-    appId: "1:874824854095:web:d30a683308271fd43e983a"
+  apiKey: "AIzaSyDW8Cxe89WYRV63YkKNSCWLKSbieDQldJ4",
+  authDomain: "atom-vc.firebaseapp.com",
+  projectId: "atom-vc",
+  storageBucket: "atom-vc.appspot.com",
+  messagingSenderId: "47508187801",
+  appId: "1:47508187801:web:1cd45c85e6f51c84cb6608",
+  measurementId: "G-ZNRJPKZ3E3"
   };
   // Initialize Firebase
   const firebaseApp = firebase.initializeApp(firebaseConfig);

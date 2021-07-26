@@ -181,7 +181,7 @@ export default function StudentClassFeeds(props){
               }</Transition.Group>}
         </TabPanel>
         <TabPanel value={openedtab} index={1}><StudentTests setTestId={props.setTestId} setTestStarted={props.setTestStarted} tests={tests} /></TabPanel>
-        <TabPanel value={openedtab} index={2}><ClassMates/></TabPanel>
+        <TabPanel value={openedtab} index={2}><ClassMates classid={props.classid}/></TabPanel>
       </div>
       </div>
     );

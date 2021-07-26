@@ -54,7 +54,6 @@ function TeacherClassFeeds(props)
   const [copied,setCopied]= useState(false);
   const [classname,setClassName]= useState('');
   const [loading,setLoading]=useState(true)
-  const user = auth.currentUser;
   const colors=['black','teal','blue','red','olive','green','violet']
 
 

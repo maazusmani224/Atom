@@ -65,7 +65,7 @@ export default function ClassMates(props){
         <div>
             {students.map((student,i)=>(
                     <Label style={{margin:"1%"}} color={colors[i%6]} size="huge" key={student.email} image>
-                    <img src={student.photoUrl?student.photoUrl:"https://i.ibb.co/TMp9SDr/blank-user.png"} />
+                    <img src={student.photoUrl?student.photoUrl:"https://i.ibb.co/TWVPkMp/user-2.png"} />
                     {student.username}
                     {teacher&&<Icon email={student.email} onClick={removeStudent} name='delete'/>}
                   </Label>

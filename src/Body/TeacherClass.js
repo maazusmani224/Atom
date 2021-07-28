@@ -137,12 +137,7 @@ export default function TeacherClass(props) {
             ))}
           </Card.Group>
         ) : (
-          <Transition.Group
-            as={CardGroup}
-            duration={400}
-            animation="pulse"
-            size="huge"
-          >
+          <Transition.Group as={CardGroup} duration={400} animation="pulse" centered={true}>
             <Card key="addnew">
               <Card.Content header="Create New Class" />
               <Card.Content>

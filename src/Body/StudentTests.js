@@ -5,8 +5,8 @@ import {
   Label,
   Transition,
   Placeholder,
-  Icon,
   Button,
+  CardGroup
 } from "semantic-ui-react";
 
 export default function StudentTests(props) {
@@ -50,13 +50,7 @@ export default function StudentTests(props) {
           </Card>
         ))
       ) : (
-        <Transition.Group
-          as={Card.Group}
-          centered
-          duration={400}
-          animation="pulse"
-          className="cardsgroup"
-        >
+        <Transition.Group as={CardGroup} duration={400} animation="pulse" centered={true}>
           {props.tests.map((doc, index) => (
             <Card key={doc.id} className="test__card" id={doc.id}>
               <Card.Content

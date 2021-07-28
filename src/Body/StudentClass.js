@@ -190,8 +190,8 @@ export default function StudentClass(props) {
         </Snackbar>
         {props.loading ? (
           <Card.Group>
-            {[1, 1, 1].map((elem) => (
-              <Card className="loading__card">
+            {[1, 1, 1].map((elem,index) => (
+              <Card key={index} className="loading__card">
                 <Card.Content style={{ background: gradients[0] }}>
                   <Card.Header>
                     <Label color={getRandomColorForLabel()} size="medium">
@@ -224,7 +224,7 @@ export default function StudentClass(props) {
             ))}
           </Card.Group>
         ) : (
-          <Transition.Group as={CardGroup} duration={400} animation="pulse">
+          <Transition.Group as={CardGroup} duration={400} animation="pulse" centered={true}>
             <Card key="addnew">
               <Card.Content header="Join a class" />
               <Card.Content>
@@ -252,7 +252,7 @@ export default function StudentClass(props) {
                 <Card.Content style={{ background: gradients[0] }}>
                   <Card.Header>
                     <Label
-                      as="a"
+                      as="div"
                       color={getRandomColorForLabel()}
                       size="medium"
                       image

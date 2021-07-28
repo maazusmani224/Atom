@@ -5,7 +5,6 @@ import { db, auth, store } from "../firebase";
 import {
   Popup,
   Icon,
-  Segment,
   Divider,
   Progress,
   Button,

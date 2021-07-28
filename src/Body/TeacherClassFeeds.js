@@ -1,17 +1,16 @@
 import React,{useEffect, useState} from 'react';
 import TeacherTests from './TeacherTests'
 import PropTypes from 'prop-types';
-import {useTheme} from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import {store, db,auth} from '../firebase'
+import {store, db} from '../firebase'
 import AddIcon from '@material-ui/icons/Add'
 import Input from '@material-ui/core/Input'
 import {Dialog,DialogContent,DialogTitle} from '@material-ui/core'
 import * as firebase from 'firebase';
 import {TextField} from '@material-ui/core'
 import MuiButton from '@material-ui/core/Button'
-import {Card,Icon,Button,Header,Modal,Divider,Transition,Label,Placeholder} from 'semantic-ui-react/'
+import {Card,Icon,Button,Header,Modal,Divider,Transition,Label,Placeholder,CardGroup} from 'semantic-ui-react/'
 import 'semantic-ui-css/semantic.min.css'
 import './TeacherClassFeeds.css'
 import ClassMates from './ClassMates';
@@ -246,13 +245,7 @@ function TeacherClassFeeds(props)
                 <Card.Content><Card.Description><Placeholder><Placeholder.Line/></Placeholder></Card.Description></Card.Content>
                 <Card.Content extra><Placeholder><Placeholder.Line/></Placeholder></Card.Content>
               </Card>))}</Card.Group>:
-        <Transition.Group
-          as={Card.Group}
-          duration={400}
-          animation ='pulse'
-          className='cardsgroup'
-          centered = {true}
-        >
+        <Transition.Group as={CardGroup} duration={400} animation="pulse" centered={true}>
                 <Card>
                   <Card.Content header="Add a Post"/>
                   <Card.Content>

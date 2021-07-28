@@ -9,10 +9,11 @@ import {
   Label,
   Divider,
   Placeholder,
+  CardGroup
 } from "semantic-ui-react";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
-import { db, auth, store } from "../firebase";
+import { db, auth} from "../firebase";
 import PropTypes from "prop-types";
 import StudentTests from "./StudentTests";
 import ClassMates from "./ClassMates";
@@ -254,13 +255,7 @@ export default function StudentClassFeeds(props) {
               ))}
             </Card.Group>
           ) : (
-            <Transition.Group
-              as={Card.Group}
-              duration={400}
-              animation="pulse"
-              className="cardsgroup"
-              centered={true}
-            >
+            <Transition.Group as={CardGroup} duration={400} animation="pulse" centered={true}>
               {posts.map((post, index) => (
                 <Card key={post.id} id={post.id}>
                   <Card.Content
@@ -284,7 +279,7 @@ export default function StudentClassFeeds(props) {
                     <Card.Content extra>
                       <a
                         style={{ margin: "0 20% 0 0" }}
-                        classname="postfile__download"
+                        className="postfile__download"
                         href={post.data.fileurl}
                       >
                         <Icon name="download" color="green" size="large" />

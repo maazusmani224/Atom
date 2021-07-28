@@ -19,6 +19,7 @@ import {
   Message,
   Image,
   List,
+  CardGroup
 } from "semantic-ui-react";
 import "./TeacherTests.css";
 
@@ -350,13 +351,7 @@ export default function TeacherTests(props) {
           </Card>
         ))
       ) : (
-        <Transition.Group
-          as={Card.Group}
-          duration={400}
-          animation="pulse"
-          className="cardsgroup"
-          centered={true}
-        >
+        <Transition.Group as={CardGroup} duration={400} animation="pulse" centered={true}>
           <Card key="addnew">
             <Card.Content header="Create New Test" />
             <Card.Content>

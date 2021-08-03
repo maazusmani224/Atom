@@ -177,9 +177,9 @@ export default function Test(props) {
   }
 
   return !testcomplete ? (
-    <Grid columns={2} divided>
+    <Grid className="grid__main" columns={2} divided>
       <Grid.Row className="testmain">
-        <Grid.Column width={4}>
+        <Grid.Column width={6}>
           <Segment style={{ margin: "1%" }}>
             <Grid doubling columns={4}>
               {questions.map((ques, i) => (
@@ -201,11 +201,11 @@ export default function Test(props) {
             Submit
           </Button>
         </Grid.Column>
-        <Grid.Column width={12}>
+        <Grid.Column width={10}>
           <Segment style={{ margin: "1%", fontSize: "1.25rem" }}>
             <div
               style={{ fontSize: "1.5rem", display: "flex" }}
-              className="question"
+              className="question ques_desc"
             >
               <div style={{ marginRight: "1%" }}>
                 {Number(index) + Number(1) + "."}

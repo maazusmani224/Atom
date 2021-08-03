@@ -49,7 +49,7 @@ function Question(props) {
         <div className="question__text">
           <Message.Header>
             {props.index + 1 + ".    "}
-            {props.question.ques}
+            <div className="question__display">{props.question.ques}</div>
           </Message.Header>
         </div>
         {props.question.optiona && (
@@ -442,7 +442,7 @@ export default function TeacherTests(props) {
                 style={{ display: "flex", flexDirection: "column" }}
               >
                 <TextArea
-                  className="add__newques__elem"
+                  className="add__newques__elem questionarea"
                   placeholder="Question"
                   rows={2}
                   value={currentques.ques}

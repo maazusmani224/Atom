@@ -30,3 +30,11 @@
     overflow-y: scroll;
     overflow-x: hidden;
 }
+
+.questionarea{
+    white-space: pre-wrap;
+}
+
+.question__display{
+    white-space: pre-wrap;
+}

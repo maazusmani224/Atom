@@ -111,3 +111,10 @@
     align-items: center;
     align-content: center;
 }
+
+@media only screen and (max-width: 600px) {
+    .selectimagebutton{
+        display: flex;
+        flex-direction: column;
+    }
+  }

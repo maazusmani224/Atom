@@ -2,3 +2,7 @@ node_modules
 build
 .vscode
 .firebase
+.firebaserc
+firebase.json
+package-lock.json
+package.json

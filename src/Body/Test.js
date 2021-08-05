@@ -179,8 +179,8 @@ export default function Test(props) {
   return !testcomplete ? (
     <Grid className="grid__main" columns={2} divided>
       <Grid.Row className="testmain">
-        <Grid.Column width={6}>
-          <Segment style={{ margin: "1%" }}>
+        <Grid.Column width={4}>
+          <div style={{ margin: "1%", overflow:"scroll"}}>
             <Grid doubling columns={4}>
               {questions.map((ques, i) => (
                 <Grid.Column key={i}>
@@ -189,20 +189,19 @@ export default function Test(props) {
                     index={i}
                     onClick={goToQues}
                     className="indices"
-                    style={{ fontSize: "1.75rem" }}
                   >
                     {i + 1}
                   </div>
                 </Grid.Column>
               ))}
             </Grid>
-          </Segment>
+          </div>
           <Button color="blue" onClick={submitTest}>
             Submit
           </Button>
         </Grid.Column>
-        <Grid.Column width={10}>
-          <Segment style={{ margin: "1%", fontSize: "1.25rem" }}>
+        <Grid.Column width={12}>
+          <div style={{ margin: "1%", fontSize: "1.25rem", overflowX:"scroll"}}>
             <div
               style={{ fontSize: "1.5rem", display: "flex" }}
               className="question ques_desc"
@@ -253,7 +252,7 @@ export default function Test(props) {
                 {questions[index].optiond}
               </div>
             )}
-          </Segment>
+          </div>
           <Button disabled={index <= 0} basic color="green" onClick={prev}>
             <Icon name="arrow circle left" />
             Prev

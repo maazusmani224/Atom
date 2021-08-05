@@ -21,6 +21,7 @@
     align-items: center;
     height: 2.25rem;
     width: 2.25rem;
+    font-size: 1.75rem;
     cursor: pointer;
     border: 1.5px solid;
     border-radius: 100%;
@@ -51,4 +52,21 @@
 
 .grid__main{
     overflow-y:scroll;
+}
+
+@media only screen and (max-width: 600px) {
+    .indices{
+        height:1.75rem;
+        width: 1.75rem;
+        border: 1px solid;
+        border-radius: 100%;
+    }
+
+    .indices.active{
+        background-color: black;
+        color: white;
+        height: 2rem;
+        width: 2rem;
+        font-size: 1.25rem;
+    }
 }
